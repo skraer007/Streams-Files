@@ -1,16 +1,15 @@
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 class Main {
-    public static void main(String[] args) throws IOException {
-        File saveBasket = new File("basket.txt");
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        File saveBasket = new File("basket.bin");
         Scanner scanner = new Scanner(System.in);
         String[] products = {"Молоко", "Хлеб", "Гречневая крупа", "Хурма"};
         int[] prices = {50, 14, 80, 50};
         Basket basket;
         if (saveBasket.exists()) {
-            basket = Basket.loadFromTxtFile(saveBasket);
+            basket = Basket.loadFromBinFile(saveBasket);
         } else basket = new Basket(prices, products);
         basket.printProducts();
         while (true) {
@@ -28,7 +27,7 @@ class Main {
                 System.out.println("Нет такого товара");
             }
         }
-        basket.saveTxt(saveBasket);
+        basket.saveBin(saveBasket);
         basket.printCart();
     }
 }
