@@ -66,21 +66,22 @@ public class Basket {
     }
 
     static Basket loadFromTxtFile(File textFile) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(textFile));
-        String info;
-        ArrayList<String> list = new ArrayList<>();
-        while ((info = reader.readLine()) != null) {
-            if (!info.isEmpty()) {
-                list.add(info);
+        try (BufferedReader reader = new BufferedReader(new FileReader(textFile))) {
+            String info;
+            ArrayList<String> list = new ArrayList<>();
+            while ((info = reader.readLine()) != null) {
+                if (!info.isEmpty()) {
+                    list.add(info);
+                }
             }
-        }
-        String[] infoFromFile = list.toArray(new String[0]);
+            String[] infoFromFile = list.toArray(new String[0]);
 
-        String[] products = infoFromFile[0].split("(?=\\p{Lu})");
-        int[] prices = Arrays.stream(infoFromFile[1].split(" ")).mapToInt(Integer::parseInt).toArray();
-        int[] productsCount = Arrays.stream(infoFromFile[2].split(" ")).mapToInt(Integer::parseInt).toArray();
-        Basket basket = new Basket(prices, products);
-        basket.setProductsCount(productsCount);
-        return basket;
+            String[] products = infoFromFile[0].split("(?=\\p{Lu})");
+            int[] prices = Arrays.stream(infoFromFile[1].split(" ")).mapToInt(Integer::parseInt).toArray();
+            int[] productsCount = Arrays.stream(infoFromFile[2].split(" ")).mapToInt(Integer::parseInt).toArray();
+            Basket basket = new Basket(prices, products);
+            basket.setProductsCount(productsCount);
+            return basket;
+        }
     }
 }
